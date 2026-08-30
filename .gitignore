@@ -1,0 +1,12 @@
+.gradle/
+.kotlin/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+local.properties
+.idea/
+node_modules/
+kotlin-js-store/*
+!kotlin-js-store/yarn.lock
+.env
+.env.local
+
