@@ -55,6 +55,7 @@ class RegisterPageController(
                     email = value(RegisterIds.EMAIL),
                     password = value(RegisterIds.PASSWORD),
                     confirmPassword = value(RegisterIds.CONFIRM_PASSWORD),
+                    termsAccepted = el<HTMLInputElement>(RegisterIds.TERMS).checked,
                 ),
             )
         }

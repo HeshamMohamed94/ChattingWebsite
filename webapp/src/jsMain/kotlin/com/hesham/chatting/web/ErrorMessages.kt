@@ -25,6 +25,9 @@ private val fieldMessages = mapOf(
     "PASSWORD_MATCHES_EMAIL" to "Password cannot match your email name.",
     "CONFIRM_PASSWORD_MISMATCH" to "Passwords do not match.",
     "TERMS_REQUIRED" to "You must agree to the Terms & Conditions to continue.",
+    "TERMS_ACCEPTANCE_REQUIRED" to "You must accept the Terms & Conditions to create an account.",
+    "USERNAME_TAKEN" to "That username is already in use.",
+    "EMAIL_TAKEN" to "That email is already registered.",
 )
 
 fun fieldErrorMessage(code: String): String = fieldMessages[code]

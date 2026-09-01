@@ -55,6 +55,7 @@ class AuthControllerTest {
 
         val intent = assertIs<AuthIntent.Register>(auth.intents.single())
         assertEquals("sara@example.com", intent.email)
+        assertTrue(intent.termsAccepted)
 
         controller.render(AuthViewState(fieldErrors = mapOf("firstName" to "FIRST_NAME_REQUIRED")))
         assertEquals("First name is required.", byId<Element>(RegisterIds.FIRST_NAME_ERROR).textContent)
@@ -90,7 +91,58 @@ class AuthControllerTest {
         assertTrue(!byId<Element>(RegisterIds.TERMS_ERROR).classList.contains("show"))
 
         byId<HTMLFormElement>(RegisterIds.FORM).dispatchEvent(Event("submit"))
-        assertIs<AuthIntent.Register>(auth.intents.single())
+        val intent = assertIs<AuthIntent.Register>(auth.intents.single())
+        assertTrue(intent.termsAccepted)
+    }
+
+    @Test
+    fun registrationRendersFriendlyMessagesForTakenUsernameEmailAndMissingTerms() = runTest {
+        installRegisterDom()
+        val auth = FakeAuthBinding()
+        val controller = RegisterPageController(auth, scope = backgroundScope, successDelay = {})
+
+        controller.render(
+            AuthViewState(
+                fieldErrors = mapOf(
+                    "username" to "USERNAME_TAKEN",
+                    "email" to "EMAIL_TAKEN",
+                    "terms" to "TERMS_ACCEPTANCE_REQUIRED",
+                ),
+            ),
+        )
+
+        assertEquals("That username is already in use.", byId<Element>(RegisterIds.USERNAME_ERROR).textContent)
+        assertEquals("That email is already registered.", byId<Element>(RegisterIds.EMAIL_ERROR).textContent)
+        assertEquals(
+            "You must accept the Terms & Conditions to create an account.",
+            byId<Element>(RegisterIds.TERMS_ERROR).textContent,
+        )
+    }
+
+    @Test
+    fun registrationForwardsActualTermsCheckboxStateInsteadOfAHardcodedValue() = runTest {
+        installRegisterDom()
+        val auth = FakeAuthBinding()
+        val controller = RegisterPageController(auth, scope = backgroundScope, successDelay = {})
+        controller.bind()
+        runCurrent()
+
+        input(RegisterIds.FIRST_NAME).value = "Sara"
+        input(RegisterIds.LAST_NAME).value = "Ali"
+        input(RegisterIds.USERNAME).value = "sara"
+        input(RegisterIds.EMAIL).value = "sara@example.com"
+        input(RegisterIds.PASSWORD).value = "password123"
+        input(RegisterIds.CONFIRM_PASSWORD).value = "password123"
+
+        // Checked, then unchecked again without re-reading the DOM in between: proves the
+        // dispatched intent tracks the live checkbox value rather than a value captured once.
+        input(RegisterIds.TERMS).checked = true
+        input(RegisterIds.TERMS).checked = false
+        input(RegisterIds.TERMS).checked = true
+        byId<HTMLFormElement>(RegisterIds.FORM).dispatchEvent(Event("submit"))
+
+        val intent = assertIs<AuthIntent.Register>(auth.intents.single())
+        assertTrue(intent.termsAccepted)
     }
 
     @Test
