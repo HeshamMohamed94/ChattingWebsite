@@ -42,6 +42,11 @@ class RegisterPageController(
     fun bind() {
         el<HTMLFormElement>(RegisterIds.FORM).on("submit") { event ->
             event.preventDefault()
+            if (!el<HTMLInputElement>(RegisterIds.TERMS).checked) {
+                renderStandaloneError(RegisterIds.TERMS_ERROR, "TERMS_REQUIRED")
+                return@on
+            }
+            renderStandaloneError(RegisterIds.TERMS_ERROR, null)
             auth.dispatch(
                 AuthIntent.Register(
                     firstName = value(RegisterIds.FIRST_NAME),
@@ -55,6 +60,9 @@ class RegisterPageController(
         }
         bindPasswordToggle(RegisterIds.TOGGLE_PASSWORD, RegisterIds.PASSWORD)
         bindPasswordToggle(RegisterIds.TOGGLE_CONFIRM, RegisterIds.CONFIRM_PASSWORD)
+        el<HTMLInputElement>(RegisterIds.TERMS).on("change") {
+            if (el<HTMLInputElement>(RegisterIds.TERMS).checked) renderStandaloneError(RegisterIds.TERMS_ERROR, null)
+        }
         el<HTMLAnchorElement>(RegisterIds.TERMS_LINK).on("click") { event ->
             event.preventDefault()
             val terms = el<HTMLInputElement>(RegisterIds.TERMS)

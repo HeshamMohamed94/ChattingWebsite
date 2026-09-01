@@ -50,6 +50,7 @@ class AuthControllerTest {
         input(RegisterIds.EMAIL).value = "sara@example.com"
         input(RegisterIds.PASSWORD).value = "password123"
         input(RegisterIds.CONFIRM_PASSWORD).value = "password123"
+        input(RegisterIds.TERMS).checked = true
         byId<HTMLFormElement>(RegisterIds.FORM).dispatchEvent(Event("submit"))
 
         val intent = assertIs<AuthIntent.Register>(auth.intents.single())
@@ -58,6 +59,38 @@ class AuthControllerTest {
         controller.render(AuthViewState(fieldErrors = mapOf("firstName" to "FIRST_NAME_REQUIRED")))
         assertEquals("First name is required.", byId<Element>(RegisterIds.FIRST_NAME_ERROR).textContent)
         assertTrue(input(RegisterIds.FIRST_NAME).classList.contains("invalid"))
+    }
+
+    @Test
+    fun registrationWithUncheckedTermsIsBlockedAndShowsAnError() = runTest {
+        installRegisterDom()
+        val auth = FakeAuthBinding()
+        val controller = RegisterPageController(auth, scope = backgroundScope, successDelay = {})
+        controller.bind()
+        runCurrent()
+
+        input(RegisterIds.FIRST_NAME).value = "Sara"
+        input(RegisterIds.LAST_NAME).value = "Ali"
+        input(RegisterIds.USERNAME).value = "sara"
+        input(RegisterIds.EMAIL).value = "sara@example.com"
+        input(RegisterIds.PASSWORD).value = "password123"
+        input(RegisterIds.CONFIRM_PASSWORD).value = "password123"
+        input(RegisterIds.TERMS).checked = false
+        byId<HTMLFormElement>(RegisterIds.FORM).dispatchEvent(Event("submit"))
+
+        assertTrue(auth.intents.isEmpty())
+        assertTrue(byId<Element>(RegisterIds.TERMS_ERROR).classList.contains("show"))
+        assertEquals(
+            "You must agree to the Terms & Conditions to continue.",
+            byId<Element>(RegisterIds.TERMS_ERROR).textContent,
+        )
+
+        input(RegisterIds.TERMS).checked = true
+        byId<HTMLInputElement>(RegisterIds.TERMS).dispatchEvent(Event("change"))
+        assertTrue(!byId<Element>(RegisterIds.TERMS_ERROR).classList.contains("show"))
+
+        byId<HTMLFormElement>(RegisterIds.FORM).dispatchEvent(Event("submit"))
+        assertIs<AuthIntent.Register>(auth.intents.single())
     }
 
     @Test
