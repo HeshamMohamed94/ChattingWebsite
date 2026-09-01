@@ -1,6 +1,6 @@
 # ChattingWebsite
 
-ChattingWebsite is the Kotlin/JS IR browser client for the Chatting platform. Milestone 1 contains a minimal browser placeholder; the real authentication and chat UI bindings are intentionally deferred to Milestones 10 and 11.
+ChattingWebsite is the Kotlin/JS IR browser client for the Chatting platform. It ships registration, login, conversation-list, new-chat, and message-thread pages backed by the same shared KMP stores used by the Android and iOS clients.
 
 ## Prerequisites
 
@@ -45,6 +45,12 @@ From `D:\ChattingProject\ChattingWebsite`:
 .\gradlew :webapp:jsBrowserDistribution
 ```
 
+`jsTest` runs the full browser suite. For a filtered suite, use the concrete browser task, for example:
+
+```powershell
+.\gradlew :webapp:jsBrowserTest --tests "*RouterGuardTest*"
+```
+
 The production static bundle is written under `webapp/build/dist/js/productionExecutable/`.
 
 ## Ports
@@ -60,4 +66,3 @@ The production static bundle is written under `webapp/build/dist/js/productionEx
 - `ChattingWebsite` is a consumer of that shared SDK and owns browser-specific DOM bindings and web assets.
 
 See the [Architecture and Implementation Plan](https://github.com/HeshamMohamed94/ChattingBackEnd/blob/main/docs/ARCHITECTURE_AND_IMPLEMENTATION_PLAN.md) for the cross-repository design and milestone sequence.
-

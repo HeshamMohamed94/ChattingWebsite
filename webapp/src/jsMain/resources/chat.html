@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chats</title>
+  <link rel="stylesheet" href="styles/chat.css">
+</head>
+<body data-page="chat">
+  <main class="chat-shell" id="chatShell">
+    <aside class="sidebar" aria-label="Conversations">
+      <header class="sidebar-header">
+        <div><p class="eyebrow">Chatting</p><h1>Messages</h1></div>
+        <div class="sidebar-actions">
+          <button type="button" class="icon-button" id="newChatButton" aria-label="Start a new chat" title="New chat">+</button>
+          <button type="button" class="text-button" id="logoutButton">Log out</button>
+        </div>
+      </header>
+      <p class="connection-pill" id="connectionStatus" role="status" aria-live="polite"></p>
+      <p class="panel-message" id="conversationLoading" hidden>Loading conversations&hellip;</p>
+      <p class="panel-message error-message" id="conversationError" role="alert" hidden></p>
+      <div class="conversation-list" id="conversationList"></div>
+      <section class="empty-state compact" id="noConversations" hidden>
+        <span class="empty-icon" aria-hidden="true">&#128172;</span>
+        <h2>No conversations yet</h2><p>Start a new chat to say hello.</p>
+      </section>
+    </aside>
+
+    <section class="thread-pane">
+      <section class="empty-state" id="noConversationSelected">
+        <span class="empty-icon" aria-hidden="true">&#128075;</span>
+        <h2>Select a conversation</h2><p>Choose a chat from the sidebar or start a new one.</p>
+      </section>
+
+      <section class="thread" id="thread" hidden>
+        <header class="thread-header">
+          <button type="button" class="back-button" id="backToConversations" aria-label="Back to conversations">&#8592;</button>
+          <div><h2 id="threadTitle">Chat</h2><p id="threadSubtitle">Conversation</p></div>
+        </header>
+        <p class="panel-message error-message" id="threadError" role="alert" hidden></p>
+        <button type="button" class="load-more" id="loadMoreButton" hidden>Load earlier messages</button>
+        <div class="message-list" id="messageList" aria-live="polite"></div>
+        <section class="empty-state compact" id="noMessages" hidden>
+          <span class="empty-icon" aria-hidden="true">&#10024;</span>
+          <h2>No messages yet</h2><p>Send the first message.</p>
+        </section>
+        <form class="composer" id="composerForm">
+          <label class="sr-only" for="composerInput">Message</label>
+          <textarea id="composerInput" rows="1" placeholder="Write a message&hellip;"></textarea>
+          <button type="submit" id="sendButton">Send</button>
+        </form>
+      </section>
+
+      <section class="new-chat-pane" id="newChatPane" hidden>
+        <header class="thread-header">
+          <button type="button" class="back-button" id="closeNewChat" aria-label="Close new chat">&#8592;</button>
+          <div><h2>New chat</h2><p>Find someone by username</p></div>
+        </header>
+        <div class="new-chat-content">
+          <label for="userSearchInput">Search by username</label>
+          <input type="search" id="userSearchInput" placeholder="Start typing a username" autocomplete="off">
+          <p class="panel-message" id="userSearchStatus" role="status" aria-live="polite"></p>
+          <p class="panel-message error-message" id="newChatError" role="alert" hidden></p>
+          <div class="user-results" id="userSearchResults"></div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <template id="conversationRowTemplate">
+    <button type="button" class="conversation-row">
+      <span class="avatar" aria-hidden="true"></span>
+      <span class="conversation-copy"><span class="conversation-name"></span><span class="conversation-preview"></span></span>
+      <span class="conversation-time"></span>
+    </button>
+  </template>
+  <template id="messageBubbleTemplate">
+    <article class="message-row">
+      <div class="message-bubble"><p class="message-text"></p></div>
+      <button type="button" class="retry-button" hidden>Failed &middot; Retry</button>
+    </article>
+  </template>
+  <script src="webapp.js"></script>
+</body>
+</html>

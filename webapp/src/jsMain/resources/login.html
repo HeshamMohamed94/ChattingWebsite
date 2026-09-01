@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome Back</title>
+  <link rel="stylesheet" href="styles/auth.css">
+</head>
+<body data-page="login">
+  <div class="card login-card">
+    <div class="icon">&#128100;</div>
+    <h1>Welcome Back</h1>
+    <p class="subtitle">Sign in to continue to your account</p>
+    <form id="loginForm" class="login-form" novalidate>
+      <div class="field login-username-field">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="Enter your username" autocomplete="username">
+        <div class="error" id="usernameError"></div>
+      </div>
+      <div class="field login-password-field">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" autocomplete="current-password">
+        <div class="error" id="passwordError"></div>
+      </div>
+      <div class="auth-options">
+        <label class="remember-label"><input type="checkbox" id="rememberMe"> Remember me</label>
+        <button type="button" id="forgotPassword" class="forgot-password" disabled aria-disabled="true" title="Coming soon">Forgot password?</button>
+      </div>
+      <div class="error form-error" id="loginError" role="alert" aria-live="polite"></div>
+      <button type="submit" class="submit" id="loginSubmit">Login</button>
+    </form>
+    <p class="login-link">Don't have an account? <a href="index.html" id="registerLink">Sign up</a></p>
+  </div>
+  <script src="webapp.js"></script>
+</body>
+</html>

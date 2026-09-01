@@ -1,9 +1,12 @@
 [versions]
 kotlin = "2.3.21"
 chatting-shared = "0.1.0-SNAPSHOT"
+coroutines = "1.11.0"
 
 [libraries]
 chatting-shared = { module = "com.hesham.chatting:shared", version.ref = "chatting-shared" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 
 [plugins]
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

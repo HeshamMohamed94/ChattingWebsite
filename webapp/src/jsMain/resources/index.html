@@ -1,12 +1,63 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChattingWebsite</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account</title>
+  <link rel="stylesheet" href="styles/auth.css">
 </head>
-<body>
-    <div id="app">Loading ChattingWebsite…</div>
-    <script src="webapp.js"></script>
+<body data-page="register">
+  <div class="card">
+    <div class="icon">&#128100;</div>
+    <h1>Create Account</h1>
+    <p class="subtitle">Sign up to get started with your account</p>
+    <form id="registerForm" novalidate>
+      <div class="field">
+        <label for="firstName">First Name</label>
+        <input type="text" id="firstName" name="firstName" placeholder="Enter your first name" autocomplete="given-name">
+        <div class="error" id="firstNameError"></div>
+      </div>
+      <div class="field">
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName" name="lastName" placeholder="Enter your last name" autocomplete="family-name">
+        <div class="error" id="lastNameError"></div>
+      </div>
+      <div class="field">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="Enter your username" autocomplete="username">
+        <div class="error" id="usernameError"></div>
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" autocomplete="email">
+        <div class="error" id="emailError"></div>
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <div class="input-wrap">
+          <input type="password" id="password" name="password" placeholder="Enter your password" autocomplete="new-password">
+          <button type="button" class="toggle" id="togglePassword" aria-label="Show password">&#128065;</button>
+        </div>
+        <div class="error" id="passwordError"></div>
+      </div>
+      <div class="field">
+        <label for="confirmPassword">Confirm Password</label>
+        <div class="input-wrap">
+          <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" autocomplete="new-password">
+          <button type="button" class="toggle" id="toggleConfirm" aria-label="Show password">&#128065;</button>
+        </div>
+        <div class="error" id="confirmPasswordError"></div>
+      </div>
+      <label class="terms">
+        <input type="checkbox" id="terms">
+        I agree to the <a href="#" id="termsLink">Terms &amp; Conditions</a>
+      </label>
+      <div class="error" id="termsError"></div>
+      <button type="submit" class="submit" id="submitBtn">Create Account</button>
+    </form>
+    <p class="login-link">Already have an account? <a href="login.html" id="loginLink">Login</a></p>
+    <div class="success" id="successMessage" role="status" aria-live="polite">&#10003; Account created successfully!</div>
+  </div>
+  <script src="webapp.js"></script>
 </body>
 </html>
